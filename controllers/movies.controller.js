@@ -7,26 +7,22 @@ function isEmpty(obj) {
 
 export const getMovies = async (req, res) => { 
 
-    //console.log(isEmpty(req.body))
-
-    if (!isEmpty(req.body)) {
-        const { search, sort } = req.body
-        const movies = await Movie.find(search)
-        return res.json(movies)    
-    } else {
-        const movies = await Movie.find()
-        return res.json(movies)    
-    }
-/*
+    //Pass query with the format { filter: {}, sort: {} }
+    //For example: movies?filter[director]=Yo&sort[name]=1
     try {
-        const movies = await Movie.find()
-        res.json(movies)    
+        if (!isEmpty(req.query)) {
+            const { filter, sort } = req.query
+            const movies = await Movie.find(filter).sort(sort)
+            return res.json(movies)    
+        } else {
+            const movies = await Movie.find()
+            return res.json(movies)    
+        }
     } catch (error) {
         return res.status(500).json({
             message: error.message
         })
     }
-  */
 }
 
 export const createMovies = async (req, res) => { 
