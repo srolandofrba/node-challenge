@@ -1,8 +1,23 @@
 import Movie from '../models/movie.model.js'
 import Director from '../models/director.model.js'
 
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
 
 export const getMovies = async (req, res) => { 
+
+    //console.log(isEmpty(req.body))
+
+    if (!isEmpty(req.body)) {
+        const { search, sort } = req.body
+        const movies = await Movie.find(search)
+        return res.json(movies)    
+    } else {
+        const movies = await Movie.find()
+        return res.json(movies)    
+    }
+/*
     try {
         const movies = await Movie.find()
         res.json(movies)    
@@ -11,20 +26,18 @@ export const getMovies = async (req, res) => {
             message: error.message
         })
     }
+  */
 }
-
 
 export const createMovies = async (req, res) => { 
   
     try {
         const {name, director} = req.body
-        
         const movie = new Movie({
             name,
             director
         })
     
-
         //Saving Director
         const newDirector = await Director.findOneAndUpdate({name: director},{name: director}, {
             new: true,
@@ -34,7 +47,7 @@ export const createMovies = async (req, res) => {
         const addMoviesToDirector = await Director.find({name: director}, {movies: 1})        
         console.log(addMoviesToDirector.concat())
 
-        //await movie.save()
+        await movie.save()
         return res.json(movie)
         
     } catch (error) {
@@ -74,7 +87,17 @@ export const deleteMovies = async (req, res) => {
             message: error.message
         })
     }
+}
 
-
-
+export const deleteAllMovies = async (req, res) => {
+    try {
+        const deleteAll = await Movie.deleteMany()
+        return res.json(deleteAll)
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        
+        })
+    }
 }
