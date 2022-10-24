@@ -1,6 +1,6 @@
 # node-challenge
 
-Run the proyecto with npm start or npx nodemon index.js
+Run the proyect with npm start or npx nodemon index.js
 
 Endpoints for authentication using JWT.
 Also an endpoint for refreshing the JWT access token.
