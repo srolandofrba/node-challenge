@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const productSchema = mongoose.Schema({
     name: {
@@ -6,6 +6,10 @@ const productSchema = mongoose.Schema({
         required: true,
         trim: true,
         unique: true
+    },
+    director: {
+        type: Schema.Types.ObjectId,
+        ref: 'Director'
     },
     seasons: {
         type: Number

@@ -10,6 +10,10 @@ const productSchema = mongoose.Schema({
     movies: [{
         type: Schema.Types.ObjectId,
         ref: 'Movie'
+    }],
+    tvshows: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Tvshow'
     }]
 }, {
     timestamps: true

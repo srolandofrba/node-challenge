@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import {
     getMovies,
-    createMovies,
+    addMovie,
     updateMovies,
     deleteMovies,
     deleteAllMovies
@@ -11,7 +11,7 @@ const router = Router()
 
 //Routes
 router.get('/movies', getMovies)
-router.post('/movies', createMovies)
+router.post('/movies', addMovie)
 router.put('/movies/:id', updateMovies)
 router.delete('/movies/:id', deleteMovies)
 router.delete('/movies', deleteAllMovies)

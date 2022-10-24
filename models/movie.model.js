@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose,  { Schema } from 'mongoose'
 
 const movieSchema = mongoose.Schema({
     name: {
@@ -8,9 +8,8 @@ const movieSchema = mongoose.Schema({
         unique: true
     },
     director: {
-        type: String,
-        required: true,
-        trim: true
+        type: Schema.Types.ObjectId,
+        ref: 'Director'
     }
 }, {
     timestamps: true

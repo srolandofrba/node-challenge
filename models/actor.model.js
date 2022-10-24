@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, {Schema} from 'mongoose'
 
 const productSchema = mongoose.Schema({
     name: {
@@ -7,20 +7,14 @@ const productSchema = mongoose.Schema({
         trim: true,
         unique: true
     },
-    movies: [
-        {
-            movieName: {
-                type: String
-            }
-        }
-    ],
-    tvShows: [
-        {
-            tvShowName: {
-                type: String
-            }
-        }
-    ]
+    movies: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Movie'
+    }],
+    tvShows: [{
+        type: Schema.Types.ObjectId,
+        ref: 'tvshow'
+    }]
 }, {
     timestamps: true
 })

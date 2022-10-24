@@ -5,6 +5,8 @@ function isEmpty(obj) {
     return Object.keys(obj).length === 0;
 }
 
+
+//EndPoint for retrieving movies
 export const getMovies = async (req, res) => { 
 
     //Pass query with the format { filter: {}, sort: {} }
@@ -12,10 +14,10 @@ export const getMovies = async (req, res) => {
     try {
         if (!isEmpty(req.query)) {
             const { filter, sort } = req.query
-            const movies = await Movie.find(filter).sort(sort)
+            const movies = await Movie.find(filter).sort(sort).populate({path: 'director', select: 'name'})
             return res.json(movies)    
         } else {
-            const movies = await Movie.find()
+            const movies = await Movie.find().populate({path: 'director', select: 'name'})
             return res.json(movies)    
         }
     } catch (error) {
@@ -25,24 +27,31 @@ export const getMovies = async (req, res) => {
     }
 }
 
-export const createMovies = async (req, res) => { 
+
+//Endpoint for adding a new object (Movie)
+export const addMovie = async (req, res) => { 
   
     try {
         const {name, director} = req.body
         const movie = new Movie({
-            name,
-            director
+            name
         })
-    
+        
         //Saving Director
         const newDirector = await Director.findOneAndUpdate({name: director},{name: director}, {
             new: true,
             upsert: true
         })
-
-        const addMoviesToDirector = await Director.find({name: director}, {movies: 1})        
-        console.log(addMoviesToDirector.concat())
-
+        
+        //Update movies for director
+        const updateMovies = newDirector.movies.concat(movie._id)
+        const addMovieToDirector = await Director.findOneAndUpdate({name: director}, {movies: updateMovies}, {
+            new: true,
+            upsert: true
+        })
+        
+        //Update director in movie
+        movie.director = addMovieToDirector._id
         await movie.save()
         return res.json(movie)
         
@@ -53,6 +62,9 @@ export const createMovies = async (req, res) => {
     }
 }
 
+
+
+//////////////////////////////
 export const updateMovies = async (req, res) => {
     try {
         const {id} = req.params
