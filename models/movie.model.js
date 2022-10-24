@@ -10,8 +10,18 @@ const movieSchema = mongoose.Schema({
     director: {
         type: Schema.Types.ObjectId,
         ref: 'Director'
+    },
+    actors: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Actor'
+    }],
+    genre: {
+        type: String,
+        required: true,
+        trim: true
     }
-}, {
+},
+    { 
     timestamps: true
 })
 

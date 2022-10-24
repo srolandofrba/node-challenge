@@ -7,12 +7,14 @@ import moviesRoutes from './routes/movies.routes.js'
 import tvshowsRoutes from './routes/tvshows.routes.js'
 import directorsRoutes from './routes/directors.routes.js'
 
+import cookies from "cookie-parser";
 
 const app = express()
 
 app.use(morgan('dev'))
 app.use(cors())
 app.use(express.json())
+app.use(cookies())
 
 app.use(indexRoutes)
 app.use(moviesRoutes)

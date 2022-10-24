@@ -1,8 +1,7 @@
 import { Router } from 'express'
 
 import jwt from 'jsonwebtoken'
-import cookieparser from 'cookie-parser'
-import dotenv from 'dotenv'
+
 
 const router = Router()
 
@@ -55,11 +54,9 @@ router.post('/login', (req, res) => {
   
 //Endpoint for refresh token 
 router.post('/refresh', (req, res) => {
-    console.log(req.cookies)
     if (req.cookies?.jwt) {
         // Destructuring refreshToken from cookie
         const refreshToken = req.cookies.jwt;
-  
         // Verifying refresh token
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, 
         (err, decoded) => {
